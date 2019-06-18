@@ -30,14 +30,6 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.howToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.developersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblFilePath = new System.Windows.Forms.Label();
-            this.btnSelectFile = new System.Windows.Forms.Button();
-            this.txtTransactionLog = new System.Windows.Forms.TextBox();
-            this.dgLog = new System.Windows.Forms.DataGridView();
-            this.btnExtract = new System.Windows.Forms.Button();
             this.selectFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,10 +38,19 @@
             this.candidateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.centersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.howToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contactUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblFilePath = new System.Windows.Forms.Label();
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.txtTransactionLog = new System.Windows.Forms.TextBox();
+            this.dgLog = new System.Windows.Forms.DataGridView();
+            this.btnExtract = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.ofCSVDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).BeginInit();
             this.SuspendLayout();
@@ -77,6 +78,60 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // selectFileToolStripMenuItem
+            // 
+            this.selectFileToolStripMenuItem.Name = "selectFileToolStripMenuItem";
+            this.selectFileToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.selectFileToolStripMenuItem.Text = "Select File";
+            // 
+            // showLogToolStripMenuItem
+            // 
+            this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.showLogToolStripMenuItem.Text = "Show Log";
+            // 
+            // showFilesToolStripMenuItem
+            // 
+            this.showFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.districtsToolStripMenuItem,
+            this.schoolsToolStripMenuItem,
+            this.candidateToolStripMenuItem,
+            this.centersToolStripMenuItem});
+            this.showFilesToolStripMenuItem.Name = "showFilesToolStripMenuItem";
+            this.showFilesToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.showFilesToolStripMenuItem.Text = "Show JSON Files";
+            // 
+            // districtsToolStripMenuItem
+            // 
+            this.districtsToolStripMenuItem.Name = "districtsToolStripMenuItem";
+            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.districtsToolStripMenuItem.Text = "Districts";
+            // 
+            // schoolsToolStripMenuItem
+            // 
+            this.schoolsToolStripMenuItem.Name = "schoolsToolStripMenuItem";
+            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.schoolsToolStripMenuItem.Text = "Schools";
+            // 
+            // candidateToolStripMenuItem
+            // 
+            this.candidateToolStripMenuItem.Name = "candidateToolStripMenuItem";
+            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.candidateToolStripMenuItem.Text = "Candidate";
+            // 
+            // centersToolStripMenuItem
+            // 
+            this.centersToolStripMenuItem.Name = "centersToolStripMenuItem";
+            this.centersToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.centersToolStripMenuItem.Text = "Centers";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -90,14 +145,20 @@
             // howToUseToolStripMenuItem
             // 
             this.howToUseToolStripMenuItem.Name = "howToUseToolStripMenuItem";
-            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.howToUseToolStripMenuItem.Text = "How To Use";
             // 
             // developersToolStripMenuItem
             // 
             this.developersToolStripMenuItem.Name = "developersToolStripMenuItem";
-            this.developersToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.developersToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.developersToolStripMenuItem.Text = "Developers";
+            // 
+            // contactUsToolStripMenuItem
+            // 
+            this.contactUsToolStripMenuItem.Name = "contactUsToolStripMenuItem";
+            this.contactUsToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.contactUsToolStripMenuItem.Text = "Contact Us";
             // 
             // lblFilePath
             // 
@@ -113,8 +174,9 @@
             this.btnSelectFile.Name = "btnSelectFile";
             this.btnSelectFile.Size = new System.Drawing.Size(130, 23);
             this.btnSelectFile.TabIndex = 2;
-            this.btnSelectFile.Text = "Select File";
+            this.btnSelectFile.Text = "Select File(s)";
             this.btnSelectFile.UseVisualStyleBackColor = true;
+            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
             // 
             // txtTransactionLog
             // 
@@ -144,65 +206,7 @@
             this.btnExtract.TabIndex = 5;
             this.btnExtract.Text = "Extract";
             this.btnExtract.UseVisualStyleBackColor = true;
-            // 
-            // selectFileToolStripMenuItem
-            // 
-            this.selectFileToolStripMenuItem.Name = "selectFileToolStripMenuItem";
-            this.selectFileToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.selectFileToolStripMenuItem.Text = "Select File";
-            // 
-            // showLogToolStripMenuItem
-            // 
-            this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.showLogToolStripMenuItem.Text = "Show Log";
-            // 
-            // showFilesToolStripMenuItem
-            // 
-            this.showFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.districtsToolStripMenuItem,
-            this.schoolsToolStripMenuItem,
-            this.candidateToolStripMenuItem,
-            this.centersToolStripMenuItem});
-            this.showFilesToolStripMenuItem.Name = "showFilesToolStripMenuItem";
-            this.showFilesToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.showFilesToolStripMenuItem.Text = "Show JSON Files";
-            // 
-            // districtsToolStripMenuItem
-            // 
-            this.districtsToolStripMenuItem.Name = "districtsToolStripMenuItem";
-            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.districtsToolStripMenuItem.Text = "Districts";
-            // 
-            // schoolsToolStripMenuItem
-            // 
-            this.schoolsToolStripMenuItem.Name = "schoolsToolStripMenuItem";
-            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.schoolsToolStripMenuItem.Text = "Schools";
-            // 
-            // candidateToolStripMenuItem
-            // 
-            this.candidateToolStripMenuItem.Name = "candidateToolStripMenuItem";
-            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.candidateToolStripMenuItem.Text = "Candidate";
-            // 
-            // centersToolStripMenuItem
-            // 
-            this.centersToolStripMenuItem.Name = "centersToolStripMenuItem";
-            this.centersToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.centersToolStripMenuItem.Text = "Centers";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // contactUsToolStripMenuItem
-            // 
-            this.contactUsToolStripMenuItem.Name = "contactUsToolStripMenuItem";
-            this.contactUsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.contactUsToolStripMenuItem.Text = "Contact Us";
+            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
             // 
             // label1
             // 
@@ -230,6 +234,12 @@
             this.label3.Size = new System.Drawing.Size(97, 17);
             this.label3.TabIndex = 8;
             this.label3.Text = "File(s) Path(s)";
+            // 
+            // ofCSVDialog
+            // 
+            this.ofCSVDialog.Filter = "CSV files|*.csv";
+            this.ofCSVDialog.Multiselect = true;
+            this.ofCSVDialog.Title = "Select MSCE CSV results fine to extract";
             // 
             // frmMain
             // 
@@ -282,6 +292,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.OpenFileDialog ofCSVDialog;
     }
 }
 
