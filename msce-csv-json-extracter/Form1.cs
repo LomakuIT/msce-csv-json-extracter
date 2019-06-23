@@ -47,12 +47,11 @@ namespace msce_csv_json_extracter
 {
     /* Created by Chief Wiz on 05-06-2019
      * CSV to JSON extraction tool for MSCE results data 
-     * version 0.9.0.1
+     * version 0.9.0.2
      */
     public partial class frmMain : Form
     {
-        private String filePath = "";//stores current file path
-        
+
         public frmMain()
         {
             InitializeComponent();
@@ -67,10 +66,9 @@ namespace msce_csv_json_extracter
         {
             if (ofCSVDialog.ShowDialog() == DialogResult.OK)
             {
-                //lblFilePath.Text = ofCSVDialog.FileName;//set file path  
                 String allPaths = "";
                 foreach (String path in ofCSVDialog.FileNames) {
-                    allPaths += "\n-> " + path;
+                    allPaths += "-> " + path + "\n";
                 }
                 lblFilePath.Text = allPaths;
             }
@@ -79,7 +77,7 @@ namespace msce_csv_json_extracter
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();//close application
-         
+
         }
 
         private void extractResults(String filepath) {
@@ -109,7 +107,7 @@ namespace msce_csv_json_extracter
                     matches = r2Regex.Matches(oneLine);
                     if (matches.Count == 1)//single match with two results
                     {
-                        Console.WriteLine("matched dual result -> "+oneLine);
+                        Console.WriteLine("matched dual result -> " + oneLine);
                         appendToCandidates(oneLine, true);
                     }
                     else
@@ -133,7 +131,7 @@ namespace msce_csv_json_extracter
                     matches = cNoRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {
-                        Console.WriteLine("matched centre number -> " + oneLine);                
+                        Console.WriteLine("matched centre number -> " + oneLine);
                     }
                     #endregion centreNumber
 
@@ -142,7 +140,7 @@ namespace msce_csv_json_extracter
                     Regex cNaRegex = new Regex(classes.AppConstants.REGEX_MSCE_CENTRE_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = cNaRegex.Matches(oneLine);
-                    if(matches.Count == 1)
+                    if (matches.Count == 1)
                     {
                         Console.WriteLine("matched center name -> " + oneLine);
                     }
@@ -152,7 +150,7 @@ namespace msce_csv_json_extracter
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("extractResults() Exception -> "+ex.Message);
+                System.Diagnostics.Debug.WriteLine("extractResults() Exception -> " + ex.Message);
             }
         }
 
@@ -160,7 +158,7 @@ namespace msce_csv_json_extracter
             return false;
         }
 
-        private bool appendToCandidates(String candidate,bool isDual) {
+        private bool appendToCandidates(String candidate, bool isDual) {
             return false;
         }
 
@@ -175,6 +173,42 @@ namespace msce_csv_json_extracter
         private void btnExtract_Click(object sender, EventArgs e)
         {
             extractResults(ofCSVDialog.FileName);//extract results from csv file
+        }
+
+        private void developersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void contactUsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void districtsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
+
+        }
+
+        private void schoolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void candidateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void centersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

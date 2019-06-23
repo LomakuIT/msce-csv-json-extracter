@@ -51,6 +51,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ofCSVDialog = new System.Windows.Forms.OpenFileDialog();
+            this.progressExtraction = new System.Windows.Forms.ProgressBar();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).BeginInit();
             this.SuspendLayout();
@@ -104,26 +105,30 @@
             // districtsToolStripMenuItem
             // 
             this.districtsToolStripMenuItem.Name = "districtsToolStripMenuItem";
-            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.districtsToolStripMenuItem.Text = "Districts";
+            this.districtsToolStripMenuItem.Click += new System.EventHandler(this.districtsToolStripMenuItem_Click);
             // 
             // schoolsToolStripMenuItem
             // 
             this.schoolsToolStripMenuItem.Name = "schoolsToolStripMenuItem";
-            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.schoolsToolStripMenuItem.Text = "Schools";
+            this.schoolsToolStripMenuItem.Click += new System.EventHandler(this.schoolsToolStripMenuItem_Click);
             // 
             // candidateToolStripMenuItem
             // 
             this.candidateToolStripMenuItem.Name = "candidateToolStripMenuItem";
-            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
-            this.candidateToolStripMenuItem.Text = "Candidate";
+            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.candidateToolStripMenuItem.Text = "Candidates";
+            this.candidateToolStripMenuItem.Click += new System.EventHandler(this.candidateToolStripMenuItem_Click);
             // 
             // centersToolStripMenuItem
             // 
             this.centersToolStripMenuItem.Name = "centersToolStripMenuItem";
-            this.centersToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.centersToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
             this.centersToolStripMenuItem.Text = "Centers";
+            this.centersToolStripMenuItem.Click += new System.EventHandler(this.centersToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -147,18 +152,21 @@
             this.howToUseToolStripMenuItem.Name = "howToUseToolStripMenuItem";
             this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.howToUseToolStripMenuItem.Text = "How To Use";
+            this.howToUseToolStripMenuItem.Click += new System.EventHandler(this.howToUseToolStripMenuItem_Click);
             // 
             // developersToolStripMenuItem
             // 
             this.developersToolStripMenuItem.Name = "developersToolStripMenuItem";
             this.developersToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.developersToolStripMenuItem.Text = "Developers";
+            this.developersToolStripMenuItem.Click += new System.EventHandler(this.developersToolStripMenuItem_Click);
             // 
             // contactUsToolStripMenuItem
             // 
             this.contactUsToolStripMenuItem.Name = "contactUsToolStripMenuItem";
             this.contactUsToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.contactUsToolStripMenuItem.Text = "Contact Us";
+            this.contactUsToolStripMenuItem.Click += new System.EventHandler(this.contactUsToolStripMenuItem_Click);
             // 
             // lblFilePath
             // 
@@ -241,11 +249,20 @@
             this.ofCSVDialog.Multiselect = true;
             this.ofCSVDialog.Title = "Select MSCE CSV results fine to extract";
             // 
+            // progressExtraction
+            // 
+            this.progressExtraction.Location = new System.Drawing.Point(0, 25);
+            this.progressExtraction.Name = "progressExtraction";
+            this.progressExtraction.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.progressExtraction.Size = new System.Drawing.Size(922, 23);
+            this.progressExtraction.TabIndex = 9;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 666);
+            this.Controls.Add(this.progressExtraction);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -293,6 +310,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.OpenFileDialog ofCSVDialog;
+        private System.Windows.Forms.ProgressBar progressExtraction;
     }
 }
 
