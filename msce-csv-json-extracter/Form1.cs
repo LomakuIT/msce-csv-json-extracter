@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using msce_csv_json_extracter.classes;
 /*
 * Copyright (c) 2019 Lomaku Technologies.
 * All Rights Reserved.
@@ -47,7 +51,7 @@ namespace msce_csv_json_extracter
 {
     /* Created by Chief Wiz on 05-06-2019
      * CSV to JSON extraction tool for MSCE results data 
-     * version 0.9.0.2
+     * version 0.9.0.3
      */
     public partial class frmMain : Form
     {
@@ -66,11 +70,16 @@ namespace msce_csv_json_extracter
         {
             if (ofCSVDialog.ShowDialog() == DialogResult.OK)
             {
+                /* extract result for all CSV files */
                 String allPaths = "";
                 foreach (String path in ofCSVDialog.FileNames) {
                     allPaths += "-> " + path + "\n";
                 }
                 lblFilePath.Text = allPaths;
+            }
+            else
+            {
+                Console.WriteLine("Dialog picker not okay");
             }
         }
 
@@ -88,45 +97,95 @@ namespace msce_csv_json_extracter
                 while (!sr.EndOfStream)
                 {
                     var oneLine = sr.ReadLine();//read single line from csv
+
                     /* match district */
                     #region district
-                    Regex dRegex = new Regex(classes.AppConstants.REGEX_MSCE_DISTRICT_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex dRegex = new Regex(AppConstants.REGEX_MSCE_DISTRICT_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = dRegex.Matches(oneLine);
                     if (matches.Count == 1) {//single match been found
                         Console.WriteLine("matched district -> " + oneLine);
-                        appendToDistricts(oneLine);
+                    
+                        foreach (Match m in matches)
+                        {
+                            District mDistrict = new District(m.Groups[AppConstants.TAG_DISTRICT_CODE_GROUP].Value, "SOUTH", null);//default region is SOUTH
+                        //    Console.WriteLine("named district JObject-> " + mDistrict.toJSONObject());
+                            appendToDistricts(mDistrict);
+                        }
                     }
                     #endregion district
 
                     /* match msce result */
                     #region result
-                    Regex r2Regex = new Regex(classes.AppConstants.REGEX_MSCE_RESULTS_2, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    Regex r1Regex = new Regex(classes.AppConstants.REGEX_MSCE_RESULTS_1, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex r2Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_2, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex r1Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_1, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = r2Regex.Matches(oneLine);
-                    if (matches.Count == 1)//single match with two results
+
+                    if (matches.Count == 1)//single match with two candidate results
                     {
                         Console.WriteLine("matched dual result -> " + oneLine);
-                        appendToCandidates(oneLine, true);
+
+                        foreach (Match m in matches)
+                        {
+                            #region firstCandidate
+                            Candidate candidate = new Candidate();
+                            candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ",""));
+                            candidate.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME_CODE_GROUP].Value +" "+ m.Groups[AppConstants.TAG_SURNAME_CODE_GROUP].Value);
+                            candidate.setGender(m.Groups[AppConstants.TAG_GENDER_CODE_GROUP].Value);
+                            candidate.setCentreId(null);//normally null as no indices at this point
+                            candidate.setCentreCode(candidate.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
+
+                            appendToCandidates(candidate);//append to candidates
+                         //   Console.WriteLine("first candidate extracted JSON -> " + candidate.toJSONObject());
+                            #endregion firstCandidate
+
+                            #region secondCandidate
+                            Candidate candidate1 = new Candidate();
+                            candidate1.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE1_CODE_GROUP].Value.Replace(" ",""));
+                            candidate1.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME1_CODE_GROUP].Value + " " + m.Groups[AppConstants.TAG_SURNAME1_CODE_GROUP].Value);
+                            candidate1.setGender(m.Groups[AppConstants.TAG_GENDER1_CODE_GROUP].Value);
+                            candidate1.setCentreId(null);//normally null as no indices at this point
+                            candidate1.setCentreCode(candidate1.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
+
+                            appendToCandidates(candidate1);//append to candidates
+                         //   Console.WriteLine("second candidate extracted JSON -> " + candidate1.toJSONObject());
+                            #endregion secondCandidate
+                        }
+                        
                     }
                     else
                     {
                         /* try matching one result */
                         matches = r1Regex.Matches(oneLine);
 
-                        if (matches.Count == 1)
+                        if (matches.Count == 1)//single match with single candidate results
                         {
                             Console.WriteLine("matched single result -> " + oneLine);
-                            appendToCandidates(oneLine, false);
-                        }
 
-                    }
+                            foreach (Match m in matches)
+                            {
+                                #region oneCandidate
+                                Candidate candidate = new Candidate();
+                                candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ",""));
+                                candidate.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME_CODE_GROUP].Value + " " + m.Groups[AppConstants.TAG_SURNAME_CODE_GROUP].Value);
+                                candidate.setGender(m.Groups[AppConstants.TAG_GENDER_CODE_GROUP].Value);
+                                candidate.setCentreId(null);//normally null as no indices at this point
+                                candidate.setCentreCode(candidate.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
+
+                                appendToCandidates(candidate);//append to candidates
+                             //   Console.WriteLine("only candidate extracted JSON -> " + candidate.toJSONObject());
+                                #endregion oneCandidate
+
+                                } 
+                            }
+
+                        }
                     #endregion result
 
                     /* match centre number */
                     #region centreNumber
-                    Regex cNoRegex = new Regex(classes.AppConstants.REGEX_MSCE_CENTRE_NO, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex cNoRegex = new Regex(AppConstants.REGEX_MSCE_CENTRE_NO, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = cNoRegex.Matches(oneLine);
                     if (matches.Count == 1)
@@ -137,7 +196,7 @@ namespace msce_csv_json_extracter
 
                     /* match centre name */
                     #region centreName
-                    Regex cNaRegex = new Regex(classes.AppConstants.REGEX_MSCE_CENTRE_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex cNaRegex = new Regex(AppConstants.REGEX_MSCE_CENTRE_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = cNaRegex.Matches(oneLine);
                     if (matches.Count == 1)
@@ -145,34 +204,41 @@ namespace msce_csv_json_extracter
                         Console.WriteLine("matched center name -> " + oneLine);
                     }
                     #endregion centreName
-
+                    
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("extractResults() Exception -> " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("extractResults() Exception stackTrace -> " + ex.StackTrace);
+               
             }
         }
 
-        private bool appendToDistricts(String district) {
+        private bool appendToDistricts(District district) { 
+           
             return false;
         }
 
-        private bool appendToCandidates(String candidate, bool isDual) {
+        private bool appendToCandidates(Candidate candidate) {
             return false;
         }
 
-        private bool appendToCentres(String centre) {
+        private bool appendToCentres(Centre centre) {
             return false;
         }
 
-        private bool appendToSchools(String school) {
+        private bool appendToSchools(School school) {
             return false;
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            extractResults(ofCSVDialog.FileName);//extract results from csv file
+          //  extractResults(ofCSVDialog.FileName);//extract results from single csv file
+            foreach (String path in ofCSVDialog.FileNames)
+            {
+                extractResults(path);//extract all results from CSV
+            }
         }
 
         private void developersToolStripMenuItem_Click(object sender, EventArgs e)

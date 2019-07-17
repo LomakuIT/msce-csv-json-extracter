@@ -48,7 +48,6 @@ namespace msce_csv_json_extracter.classes
         public const String REGEX_MSCE_RESULTS_TRIMMED = "";
         public const String REGEX_MSCE_CENTRE_NAME= @".*CENTRE[\s]NO:[\s](?<centre>[A-Z,a-z,\,,(,),\\,\/,\s]+).*";
         public const String REGEX_MSCE_CENTRE_NO = @"^(?<centreNumber>[0-9]{4})$";
-       // public const String REGEX_MSCE_CENTRE_NO = @"[^](?<centreNumber>[0-9]{4}$";
         public const String REGEX_MSCE_DISTRICT_NAME = @".*DISTRICT[\s]NAME:[\s](?<district>[A-Z,a-z,\s,\']+).*";
         public const String MSCE_FULL = "MALAWI SCHOOL CERTIFICATE OF EDUCATION";
         public const String TAG_CANDIDATE_CODE_GROUP = "candidateCode";
@@ -59,6 +58,25 @@ namespace msce_csv_json_extracter.classes
         public const String TAG_GENDER1_CODE_GROUP = "gender1";
         public const String TAG_FIRSTNAME1_CODE_GROUP = "firstname1";
         public const String TAG_SURNAME1_CODE_GROUP = "surname1";
-        
+        public const String TAG_DISTRICT_CODE_GROUP = "district";
+        public const String TAG_CENTRE_CODE_GROUP = "centre";
+        public const String TAG_CENTRE_NUMBER_CODE_GROUP = "centreNumber";
+
+        public const String TAG_DISTRICT_NAME = "name";
+        public const String TAG_REGION = "region";
+        public const String TAG_REGION_ID = "region_id";
+
+        public const String TAG_CANDIDATE_NUMBER = "number";
+        public const String TAG_CENTRE_CODE = "centre_code";
+        public const String TAG_CENTRE_ID = "centre_id";
+        public const String TAG_GENDER = "gender";
+        public const String TAG_CANDIDATE_NAME = "name";
+        public const String TAG_CENTRE_NAME = "name";
+        public const String TAG_CODE = "code";
+        public const String TAG_DISTRICT = "district";
+        public const String TAG_SCHOOL_ID = "school_id";
+        public const String TAG_SCHOOL_NAME = "name";
+        public const String TAG_DISTRICT_ID = "district_id";
+
     }
 }
