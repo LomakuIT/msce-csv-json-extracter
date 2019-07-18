@@ -46,7 +46,7 @@ namespace msce_csv_json_extracter.classes
         public const String REGEX_MSCE_RESULTS_2 = @"(?<candidateCode>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z,\s]+)[\s][MSCE].*(?<candidateCode1>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender1>[M,F]+)[\s](?<firstname1>[A-Z]+)[\s](?<surname1>[A-Z,\s]+)[\s][MSCE].*";
         public const String REGEX_MSCE_RESULTS_1 = @"(?<candidateCode>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z]+)[\s]+MSCE.*";
         public const String REGEX_MSCE_RESULTS_TRIMMED = "";
-        public const String REGEX_MSCE_CENTRE_NAME= @".*CENTRE[\s]NO:[\s](?<centre>[A-Z,a-z,\,,(,),\\,\/,\s]+).*";
+        public const String REGEX_MSCE_CENTRE_NAME= @".*CENTRE[\s]NO:[\s](?<centre>[A-Z,a-z,\,,(,),\\,\/,\s,\',-]+).*";
         public const String REGEX_MSCE_CENTRE_NO = @"^(?<centreNumber>[0-9]{4})$";
         public const String REGEX_MSCE_DISTRICT_NAME = @".*DISTRICT[\s]NAME:[\s](?<district>[A-Z,a-z,\s,\']+).*";
         public const String MSCE_FULL = "MALAWI SCHOOL CERTIFICATE OF EDUCATION";
@@ -77,6 +77,39 @@ namespace msce_csv_json_extracter.classes
         public const String TAG_SCHOOL_ID = "school_id";
         public const String TAG_SCHOOL_NAME = "name";
         public const String TAG_DISTRICT_ID = "district_id";
+
+        public const String MESSAGE_FILE_DIALOG_NONE_SELECTED = "No files have been selected for extraction. Please select one or more CSV files for extraction";
+        public const String CAPTION_FILE_DIALOG_NONE_SELECTED = "No File(s) Selected";
+
+        public const String NAME_DISTRICT_BLANTYRE = "BLANTYRE";
+        public const String NAME_DISTRICT_BALAKA = "BALAKA";
+        public const String NAME_DISTRICT_CHIKHWAWA = "CHIKHWAWA";
+        public const String NAME_DISTRICT_CHIRADZULU = "CHIRADZULU";
+        public const String NAME_DISTRICT_DEDZA = "DEDZA";
+        public const String NAME_DISTRICT_DOWA = "DOWA";
+        public const String NAME_DISTRICT_LIKOMA = "LIKOMA";
+        public const String NAME_DISTRICT_KASUNGU = "KASUNGU";
+        public const String NAME_DISTRICT_MACHINGA = "MACHINGA";
+        public const String NAME_DISTRICT_CHITIPA = "CHITIPA";
+        public const String NAME_DISTRICT_KARONGA = "KARONGA";
+        public const String NAME_DISTRICT_MWANZA = "MWANZA";
+        public const String NAME_DISTRICT_MULANJE = "MULANJE";
+        public const String NAME_DISTRICT_MZIMBA = "MZIMBA";
+        public const String NAME_DISTRICT_MZUZU = "MZUZU";
+        public const String NAME_DISTRICT_NENO = "NENO";
+        public const String NAME_DISTRICT_MCHINJI = "MCHINJI";
+        public const String NAME_DISTRICT_NKHATA = "NKHATA";
+        public const String NAME_DISTRICT_NKHOTAKOTA = "NKHOTAKOTA";
+        public const String NAME_DISTRICT_NSANJE = "NSANJE";
+        public const String NAME_DISTRICT_PHALOMBE = "PHALOMBE";
+        public const String NAME_DISTRICT_MANGOCHI = "MANGOCHI";
+        public const String NAME_DISTRICT_SALIMA = "SALIMA";
+        public const String NAME_DISTRICT_NTCHEU = "NTCHEU";
+        public const String NAME_DISTRICT_THYOLO = "THYOLO";
+        public const String NAME_DISTRICT_ZOMBA = "ZOMBA";
+        public const String NAME_DISTRICT_NTCHISI = "NTCHISI";
+        public const String NAME_DISTRICT_RUMPHI = "RUMPHI";
+        public const String NAME_DISTRICT_LILONGWE = "LILONGWE";
 
     }
 }
