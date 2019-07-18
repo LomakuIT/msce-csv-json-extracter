@@ -51,7 +51,7 @@ namespace msce_csv_json_extracter
 {
     /* Created by Chief Wiz on 05-06-2019
      * CSV to JSON extraction tool for MSCE results data 
-     * version 0.9.0.4
+     * version 0.9.0.5
      */
     public partial class frmMain : Form
     {
@@ -85,7 +85,8 @@ namespace msce_csv_json_extracter
             {
                 /* extract result for all CSV files */
                 String allPaths = "";
-                foreach (String path in ofCSVDialog.FileNames) {
+                foreach (String path in ofCSVDialog.FileNames)
+                {
                     allPaths += "-> " + path + "\n";
                 }
                 lblFilePath.Text = allPaths;
@@ -103,13 +104,13 @@ namespace msce_csv_json_extracter
 
         }
 
-        private void extractResults(String filepath) {
+        private void extractResults(String filepath)
+        {
             try
             {
                 MatchCollection matches;
                 StreamReader sr = new StreamReader(filepath);
                 Centre centre = new Centre();
-               
 
                 while (!sr.EndOfStream)
                 {
@@ -124,35 +125,35 @@ namespace msce_csv_json_extracter
 
                     if (matches.Count == 1)//single match with two candidate results
                     {
-                     //   Console.WriteLine("matched dual result -> " + oneLine);
+                        //   Console.WriteLine("matched dual result -> " + oneLine);
 
                         foreach (Match m in matches)
                         {
                             #region firstCandidate
                             Candidate candidate = new Candidate();
-                            candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ",""));
-                            candidate.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME_CODE_GROUP].Value +" "+ m.Groups[AppConstants.TAG_SURNAME_CODE_GROUP].Value);
+                            candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ", ""));
+                            candidate.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME_CODE_GROUP].Value + " " + m.Groups[AppConstants.TAG_SURNAME_CODE_GROUP].Value);
                             candidate.setGender(m.Groups[AppConstants.TAG_GENDER_CODE_GROUP].Value);
                             candidate.setCentreId(null);//normally null as no indices at this point
                             candidate.setCentreCode(candidate.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
 
                             appendToCandidates(candidate);//append to candidates
-                         //   Console.WriteLine("first candidate extracted JSON -> " + candidate.toJSONObject());
+                                                          //   Console.WriteLine("first candidate extracted JSON -> " + candidate.toJSONObject());
                             #endregion firstCandidate
 
                             #region secondCandidate
                             Candidate candidate1 = new Candidate();
-                            candidate1.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE1_CODE_GROUP].Value.Replace(" ",""));
+                            candidate1.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE1_CODE_GROUP].Value.Replace(" ", ""));
                             candidate1.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME1_CODE_GROUP].Value + " " + m.Groups[AppConstants.TAG_SURNAME1_CODE_GROUP].Value);
                             candidate1.setGender(m.Groups[AppConstants.TAG_GENDER1_CODE_GROUP].Value);
                             candidate1.setCentreId(null);//normally null as no indices at this point
                             candidate1.setCentreCode(candidate1.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
 
                             appendToCandidates(candidate1);//append to candidates
-                       //     Console.WriteLine("second candidate extracted JSON -> " + candidate1.toJSONObject());
+                                                           //     Console.WriteLine("second candidate extracted JSON -> " + candidate1.toJSONObject());
                             #endregion secondCandidate
                         }
-                        
+
                     }
                     else
                     {
@@ -161,26 +162,26 @@ namespace msce_csv_json_extracter
 
                         if (matches.Count == 1)//single match with single candidate results
                         {
-                    //        Console.WriteLine("matched single result -> " + oneLine);
+                            //        Console.WriteLine("matched single result -> " + oneLine);
 
                             foreach (Match m in matches)
                             {
                                 #region oneCandidate
                                 Candidate candidate = new Candidate();
-                                candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ",""));
+                                candidate.setCandidateNumber(m.Groups[AppConstants.TAG_CANDIDATE_CODE_GROUP].Value.Replace(" ", ""));
                                 candidate.setCandidateName(m.Groups[AppConstants.TAG_FIRSTNAME_CODE_GROUP].Value + " " + m.Groups[AppConstants.TAG_SURNAME_CODE_GROUP].Value);
                                 candidate.setGender(m.Groups[AppConstants.TAG_GENDER_CODE_GROUP].Value);
                                 candidate.setCentreId(null);//normally null as no indices at this point
                                 candidate.setCentreCode(candidate.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
 
                                 appendToCandidates(candidate);//append to candidates
-                              //  Console.WriteLine("only candidate extracted JSON -> " + candidate.toJSONObject());
+                                                              //  Console.WriteLine("only candidate extracted JSON -> " + candidate.toJSONObject());
                                 #endregion oneCandidate
 
-                                } 
                             }
-
                         }
+
+                    }
                     #endregion result
 
                     /* match centre name */
@@ -192,7 +193,7 @@ namespace msce_csv_json_extracter
                     {
                         centre = new Centre();//new centre
 
-                        Console.WriteLine("matched centre name -> " + oneLine);
+                        // Console.WriteLine("matched centre name -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             String c = m.Groups[AppConstants.TAG_CENTRE_CODE_GROUP].Value;
@@ -200,7 +201,7 @@ namespace msce_csv_json_extracter
                         }
                     }
                     #endregion centreName
-                    
+
                     /* match centre number */
                     #region centreNumber
                     Regex cNoRegex = new Regex(AppConstants.REGEX_MSCE_CENTRE_NO, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -208,24 +209,25 @@ namespace msce_csv_json_extracter
                     matches = cNoRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {
-                        Console.WriteLine("matched centre number -> " + oneLine);
+                        // Console.WriteLine("matched centre number -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             String c = m.Groups[AppConstants.TAG_CENTRE_NUMBER_CODE_GROUP].Value;
-                            String code = String.Format("{0}{1}","M",c);//format centre code to appropriate centre code
+                            String code = String.Format("{0}{1}", "M", c);//format centre code to appropriate centre code
                             centre.setCentreCode(code);//set centre code
                         }
 
                     }
                     #endregion centreNumber
-  
+
                     /* match district */
                     #region district
                     Regex dRegex = new Regex(AppConstants.REGEX_MSCE_DISTRICT_NAME, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = dRegex.Matches(oneLine);
-                    if (matches.Count == 1) {//single match been found
-                                             //     Console.WriteLine("matched district -> " + oneLine);
+                    if (matches.Count == 1)
+                    {//single match been found
+                     //     Console.WriteLine("matched district -> " + oneLine);
 
                         foreach (Match m in matches)
                         {
@@ -258,9 +260,9 @@ namespace msce_csv_json_extracter
                                      fDistrict.Contains(AppConstants.NAME_DISTRICT_NTCHISI) ||
                                      fDistrict.Contains(AppConstants.NAME_DISTRICT_NTCHEU) ||
                                      fDistrict.Contains(AppConstants.NAME_DISTRICT_NKHOTAKOTA)
-                                     ) 
+                                     )
                             {
-                                   mDistrict = new District(fDistrict, "CENTRAL", null);//if central district is detected
+                                mDistrict = new District(fDistrict, "CENTRAL", null);//if central district is detected
                             }
                             else if (fDistrict.Contains(AppConstants.NAME_DISTRICT_RUMPHI) ||
                                      fDistrict.Contains(AppConstants.NAME_DISTRICT_NKHATA) ||
@@ -274,43 +276,243 @@ namespace msce_csv_json_extracter
                             }
 
                             centre.setDistrict(mDistrict.getDistrictName());//set centre district
-                            appendToDistricts(mDistrict);
-                            appendToCentres(centre);
-                            Console.WriteLine("named centre JObject-> " + centre.toJSONObject());
-                            Console.WriteLine("named district JObject-> " + mDistrict.toJSONObject());
+                            bool hasAppended = appendToDistricts(mDistrict);
+                            bool hasAppended1 = appendToCentres(centre);
+                            bool hasAppended2 = appendToSchools(centre);
+
+                            Console.WriteLine("has appended district " + hasAppended);
+                            Console.WriteLine("has appended centre " + hasAppended1);
+                            Console.WriteLine("has appended school " + hasAppended2);
                         }
                     }
+
                     #endregion district
 
                 }
+
+                Console.WriteLine("centres array count -> " + centresArray.Count);
+                Console.WriteLine("centres item count -> " + centreCount);
+                Console.WriteLine("district array count -> " + districtsArray.Count);
+                Console.WriteLine("district item count -> " + districtCount);
+                Console.WriteLine("candidates array count -> " + candidatesArray.Count);
+                Console.WriteLine("candidates item count -> " + candidateCount);
+                Console.WriteLine("schools array count -> " + schoolsArray.Count);
+                Console.WriteLine("schools items count -> " + schoolCount);
+
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("extractResults() Exception -> " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("extractResults() Exception stackTrace -> " + ex.StackTrace);             
+                System.Diagnostics.Debug.WriteLine("extractResults() Exception stackTrace -> " + ex.StackTrace);
+            }
+            finally
+            {
+                writeToJSONFiles();//write extracted data to JSON files
             }
         }
 
-        private bool appendToDistricts(District district) { 
-           
+        private bool appendToDistricts(District district)
+        {
+            int currentCount = districtsArray.Count;//get district count before add operation
+            bool existsAlready = false;
+
+            if (districtsArray.Count > 0)
+            {
+                foreach (JObject dObject in districtsArray)
+                {
+                    //convert to string as cannot compare with JToken
+                    String dName = (String)dObject.GetValue(AppConstants.TAG_DISTRICT_NAME);
+                    String region = (String)dObject.GetValue(AppConstants.TAG_REGION);
+
+                    if (district.getDistrictName().Trim().Equals(dName.Trim())
+                        && district.getRegion().Trim().Equals(region.Trim())
+                        )
+                    {
+                        existsAlready = true;
+                    }
+                }
+            }
+
+            //if district does not already exist
+            if (!existsAlready)
+            {
+                districtsArray.Add(district.toJSONObject());
+                districtCount++;//increment district count
+            }
+
+            //check to see if new district has been successfully added
+            if (currentCount < districtsArray.Count)
+            {
+                return true;
+            }
+
             return false;
         }
 
-        private bool appendToCandidates(Candidate candidate) {
+        private bool appendToCandidates(Candidate candidate)
+        {
+            int currentCount = candidatesArray.Count;//get count before add operation
+            candidatesArray.Add(candidate.toJSONObject());//add received candidate
+
+            if (currentCount < candidatesArray.Count)
+            {
+                candidateCount++;//increment candidate count
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool appendToCentres(Centre centre)
+        {
+            int currentCount = centresArray.Count;//get current centre count before add operation
+            bool existsAlready = false;
+
+            foreach (JObject cObject in centresArray)
+            {
+                Console.WriteLine("cObject centre -> " + cObject.GetValue(AppConstants.TAG_CENTRE_NAME));
+                Console.WriteLine("cObject centre code -> " + cObject.GetValue(AppConstants.TAG_CENTRE_CODE));
+                Console.WriteLine("centre -> " + centre.getCentreName());
+                Console.WriteLine("centre code -> " + centre.getCentreCode());
+
+                //convert to string as cannot compare with JToken
+                String cName = (String)cObject.GetValue(AppConstants.TAG_CENTRE_NAME);
+                String cCode = (String)cObject.GetValue(AppConstants.TAG_CENTRE_CODE);
+
+                //if centre name and centre code match then do not add centre as it already exists
+                if (cName.Trim().Equals(centre.getCentreName().Trim())
+                    && cCode.Trim().Equals(centre.getCentreCode().Trim())
+                    )
+                {
+                    existsAlready = true;
+                }
+
+            }
+
+            if (!existsAlready)//if centre does not already exist
+            {
+                centresArray.Add(centre.toJSONObject());//add centre
+                centreCount++;//increment centre count
+            }
+
+            //new centre has been added
+            if (currentCount < centresArray.Count)
+            {
+                return true;
+            }
+
             return false;
         }
 
-        private bool appendToCentres(Centre centre) {
+        private bool appendToSchools(Centre centre)
+        {
+            int currentCount = schoolsArray.Count;
+            bool existsAlready = false;
+
+            foreach (JObject sObject in schoolsArray)
+            {
+                Console.WriteLine("sObject school -> " + sObject.GetValue(AppConstants.TAG_SCHOOL_NAME));
+                Console.WriteLine("sObject district -> " + sObject.GetValue(AppConstants.TAG_DISTRICT));
+                Console.WriteLine("school -> " + centre.getCentreName());
+                Console.WriteLine("district -> " + centre.getDistrict());
+
+                //convert to string as cannot compare with JToken
+                String school = (String)sObject.GetValue(AppConstants.TAG_SCHOOL_NAME);
+                String district = (String)sObject.GetValue(AppConstants.TAG_DISTRICT);
+
+                if (school.Trim().Equals(centre.getCentreName().Trim())
+                    && district.Trim().Equals(centre.getDistrict().Trim())
+                    )
+                {
+                    existsAlready = true;
+                }
+
+            }
+
+            if (!existsAlready)
+            {
+                School mSchool = new School(centre.getCentreName(), centre.getDistrict(), null);//define new school
+                schoolsArray.Add(mSchool.toJSONObject());
+                schoolCount++;//increment school count
+            }
+
+            //if new school has been added
+            if (currentCount < schoolsArray.Count)
+            {
+                return true;
+            }
+
             return false;
         }
 
-        private bool appendToSchools(School school) {
-            return false;
-        }
+        private void writeToJSONFiles()
+        {
 
+            String candidatePath = Directory.GetCurrentDirectory() + @"\json\candidates.json";
+            String schoolsPath = Directory.GetCurrentDirectory() + @"\json\schools.json";
+            String centresPath = Directory.GetCurrentDirectory() + @"\json\centres.json";
+            String districtsPath = Directory.GetCurrentDirectory() + @"\json\districts.json";
+
+            Console.WriteLine("candidate path -> " + candidatePath);
+            Console.WriteLine("schools path -> " + schoolsPath);
+            Console.WriteLine("centres path -> " + centresPath);
+            Console.WriteLine("districts path -> " + districtsPath);
+
+            try
+            {
+                FileInfo file;//file object used to write to file
+
+                /* write to candidates JSON */
+                #region writeCandidates
+                file = new FileInfo(candidatePath);
+                file.Directory.Create();
+                File.WriteAllText(file.FullName, candidatesArray.ToString());
+                #endregion writeCandidates
+
+                /* write to schools JSON */
+                #region writeSchools
+                file = new FileInfo(schoolsPath);
+                file.Directory.Create();
+                File.WriteAllText(file.FullName, schoolsArray.ToString());
+                #endregion writeSchools
+
+                /* write to centres JSON */
+                #region writeCentres
+                file = new FileInfo(centresPath);
+                file.Directory.Create();
+                File.WriteAllText(file.FullName, centresArray.ToString());
+                #endregion writeCentres
+
+                /* write to districts JSON */
+                #region writeDistricts
+                file = new FileInfo(districtsPath);
+                file.Directory.Create();
+                File.WriteAllText(file.FullName, districtsArray.ToString());
+                #endregion writeDistricts
+
+            }
+            catch (FileNotFoundException fnfEx)
+            {
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() FNF Exception -> " + fnfEx.Message);
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() FNF Exception stackTrace -> " + fnfEx.StackTrace);
+            }
+            catch (IOException ioEx)
+            {
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() IO Exception -> " + ioEx.Message);
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() IO Exception stackTrace -> " + ioEx.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() Exception -> " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("writeToJSONFiles() Exception stackTrace -> " + ex.StackTrace);
+            }
+
+        }
         private void btnExtract_Click(object sender, EventArgs e)
         {
-          //  extractResults(ofCSVDialog.FileName);//extract results from single csv file
+            //  extractResults(ofCSVDialog.FileName);//extract results from single csv file
             foreach (String path in ofCSVDialog.FileNames)
             {
                 extractResults(path);//extract all results from CSV
@@ -334,7 +536,7 @@ namespace msce_csv_json_extracter
 
         private void districtsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
 
         }
 
