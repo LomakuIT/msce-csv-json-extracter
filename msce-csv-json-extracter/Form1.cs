@@ -51,7 +51,7 @@ namespace msce_csv_json_extracter
 {
     /* Created by Chief Wiz on 05-06-2019
      * CSV to JSON extraction tool for MSCE results data 
-     * version 0.9.0.5
+     * version 0.9.0.6
      */
     public partial class frmMain : Form
     {
@@ -125,7 +125,6 @@ namespace msce_csv_json_extracter
 
                     if (matches.Count == 1)//single match with two candidate results
                     {
-                        //   Console.WriteLine("matched dual result -> " + oneLine);
 
                         foreach (Match m in matches)
                         {
@@ -138,7 +137,6 @@ namespace msce_csv_json_extracter
                             candidate.setCentreCode(candidate.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
 
                             appendToCandidates(candidate);//append to candidates
-                                                          //   Console.WriteLine("first candidate extracted JSON -> " + candidate.toJSONObject());
                             #endregion firstCandidate
 
                             #region secondCandidate
@@ -150,7 +148,6 @@ namespace msce_csv_json_extracter
                             candidate1.setCentreCode(candidate1.getCandidateNumber().Substring(0, 5));//extract centre code from candidate number
 
                             appendToCandidates(candidate1);//append to candidates
-                                                           //     Console.WriteLine("second candidate extracted JSON -> " + candidate1.toJSONObject());
                             #endregion secondCandidate
                         }
 
@@ -162,7 +159,6 @@ namespace msce_csv_json_extracter
 
                         if (matches.Count == 1)//single match with single candidate results
                         {
-                            //        Console.WriteLine("matched single result -> " + oneLine);
 
                             foreach (Match m in matches)
                             {
@@ -193,7 +189,6 @@ namespace msce_csv_json_extracter
                     {
                         centre = new Centre();//new centre
 
-                        // Console.WriteLine("matched centre name -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             String c = m.Groups[AppConstants.TAG_CENTRE_CODE_GROUP].Value;
@@ -209,7 +204,6 @@ namespace msce_csv_json_extracter
                     matches = cNoRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {
-                        // Console.WriteLine("matched centre number -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             String c = m.Groups[AppConstants.TAG_CENTRE_NUMBER_CODE_GROUP].Value;
@@ -227,7 +221,6 @@ namespace msce_csv_json_extracter
                     matches = dRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {//single match been found
-                     //     Console.WriteLine("matched district -> " + oneLine);
 
                         foreach (Match m in matches)
                         {
@@ -289,15 +282,6 @@ namespace msce_csv_json_extracter
                     #endregion district
 
                 }
-
-                Console.WriteLine("centres array count -> " + centresArray.Count);
-                Console.WriteLine("centres item count -> " + centreCount);
-                Console.WriteLine("district array count -> " + districtsArray.Count);
-                Console.WriteLine("district item count -> " + districtCount);
-                Console.WriteLine("candidates array count -> " + candidatesArray.Count);
-                Console.WriteLine("candidates item count -> " + candidateCount);
-                Console.WriteLine("schools array count -> " + schoolsArray.Count);
-                Console.WriteLine("schools items count -> " + schoolCount);
 
             }
             catch (Exception ex)
@@ -372,11 +356,6 @@ namespace msce_csv_json_extracter
 
             foreach (JObject cObject in centresArray)
             {
-                Console.WriteLine("cObject centre -> " + cObject.GetValue(AppConstants.TAG_CENTRE_NAME));
-                Console.WriteLine("cObject centre code -> " + cObject.GetValue(AppConstants.TAG_CENTRE_CODE));
-                Console.WriteLine("centre -> " + centre.getCentreName());
-                Console.WriteLine("centre code -> " + centre.getCentreCode());
-
                 //convert to string as cannot compare with JToken
                 String cName = (String)cObject.GetValue(AppConstants.TAG_CENTRE_NAME);
                 String cCode = (String)cObject.GetValue(AppConstants.TAG_CENTRE_CODE);
@@ -413,10 +392,6 @@ namespace msce_csv_json_extracter
 
             foreach (JObject sObject in schoolsArray)
             {
-                Console.WriteLine("sObject school -> " + sObject.GetValue(AppConstants.TAG_SCHOOL_NAME));
-                Console.WriteLine("sObject district -> " + sObject.GetValue(AppConstants.TAG_DISTRICT));
-                Console.WriteLine("school -> " + centre.getCentreName());
-                Console.WriteLine("district -> " + centre.getDistrict());
 
                 //convert to string as cannot compare with JToken
                 String school = (String)sObject.GetValue(AppConstants.TAG_SCHOOL_NAME);
@@ -454,11 +429,6 @@ namespace msce_csv_json_extracter
             String schoolsPath = Directory.GetCurrentDirectory() + @"\json\schools.json";
             String centresPath = Directory.GetCurrentDirectory() + @"\json\centres.json";
             String districtsPath = Directory.GetCurrentDirectory() + @"\json\districts.json";
-
-            Console.WriteLine("candidate path -> " + candidatePath);
-            Console.WriteLine("schools path -> " + schoolsPath);
-            Console.WriteLine("centres path -> " + centresPath);
-            Console.WriteLine("districts path -> " + districtsPath);
 
             try
             {
@@ -510,18 +480,25 @@ namespace msce_csv_json_extracter
             }
 
         }
+
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            //  extractResults(ofCSVDialog.FileName);//extract results from single csv file
+            int fileCount = ofCSVDialog.FileNames.Length;
+            progressExtraction.Maximum = fileCount;
+            progressExtraction.Step = 1;
+
             foreach (String path in ofCSVDialog.FileNames)
             {
                 extractResults(path);//extract all results from CSV
+                progressExtraction.PerformStep();
+                
             }
+            progressExtraction.Value = fileCount;
         }
 
         private void developersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show(AppConstants.MESSAGE_DEVELOPERS_APP, AppConstants.CAPTION_DEVELOPERS_APP, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -531,28 +508,45 @@ namespace msce_csv_json_extracter
 
         private void contactUsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show(AppConstants.MESSAGE_CONTACT_US, AppConstants.CAPTION_CONTACT_US, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void districtsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
+            String districtsPath = Directory.GetCurrentDirectory() + @"\json\districts.json";
+            OpenFilePathInExplorer(districtsPath);
         }
 
         private void schoolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            String schoolsPath = Directory.GetCurrentDirectory() + @"\json\schools.json";
+            OpenFilePathInExplorer(schoolsPath);
         }
 
         private void candidateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            String candidatePath = Directory.GetCurrentDirectory() + @"\json\candidates.json";
+            OpenFilePathInExplorer(candidatePath);
         }
 
         private void centersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            String centresPath = Directory.GetCurrentDirectory() + @"\json\centres.json";
+            OpenFilePathInExplorer(centresPath);
+        }
 
+        private void OpenFilePathInExplorer(String fullPath)
+        {
+            try
+            {
+                string argument = "/select, \"" + fullPath + "\"";
+                System.Diagnostics.Process.Start("explorer.exe", argument);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("districtsToolStripMenuItem_Click() Exception -> " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("districtsToolStripMenuItem_Click() Exception stackTrace -> " + ex.StackTrace);
+            }
         }
     }
 }

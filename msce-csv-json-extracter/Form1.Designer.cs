@@ -30,8 +30,6 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.districtsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,10 +42,8 @@
             this.contactUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblFilePath = new System.Windows.Forms.Label();
             this.btnSelectFile = new System.Windows.Forms.Button();
-            this.txtTransactionLog = new System.Windows.Forms.TextBox();
             this.dgLog = new System.Windows.Forms.DataGridView();
             this.btnExtract = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ofCSVDialog = new System.Windows.Forms.OpenFileDialog();
@@ -71,25 +67,11 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectFileToolStripMenuItem,
-            this.showLogToolStripMenuItem,
             this.showFilesToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // selectFileToolStripMenuItem
-            // 
-            this.selectFileToolStripMenuItem.Name = "selectFileToolStripMenuItem";
-            this.selectFileToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.selectFileToolStripMenuItem.Text = "Select File";
-            // 
-            // showLogToolStripMenuItem
-            // 
-            this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
-            this.showLogToolStripMenuItem.Text = "Show Log";
             // 
             // showFilesToolStripMenuItem
             // 
@@ -105,28 +87,28 @@
             // districtsToolStripMenuItem
             // 
             this.districtsToolStripMenuItem.Name = "districtsToolStripMenuItem";
-            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.districtsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.districtsToolStripMenuItem.Text = "Districts";
             this.districtsToolStripMenuItem.Click += new System.EventHandler(this.districtsToolStripMenuItem_Click);
             // 
             // schoolsToolStripMenuItem
             // 
             this.schoolsToolStripMenuItem.Name = "schoolsToolStripMenuItem";
-            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.schoolsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.schoolsToolStripMenuItem.Text = "Schools";
             this.schoolsToolStripMenuItem.Click += new System.EventHandler(this.schoolsToolStripMenuItem_Click);
             // 
             // candidateToolStripMenuItem
             // 
             this.candidateToolStripMenuItem.Name = "candidateToolStripMenuItem";
-            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.candidateToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.candidateToolStripMenuItem.Text = "Candidates";
             this.candidateToolStripMenuItem.Click += new System.EventHandler(this.candidateToolStripMenuItem_Click);
             // 
             // centersToolStripMenuItem
             // 
             this.centersToolStripMenuItem.Name = "centersToolStripMenuItem";
-            this.centersToolStripMenuItem.Size = new System.Drawing.Size(158, 26);
+            this.centersToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.centersToolStripMenuItem.Text = "Centers";
             this.centersToolStripMenuItem.Click += new System.EventHandler(this.centersToolStripMenuItem_Click);
             // 
@@ -150,21 +132,21 @@
             // howToUseToolStripMenuItem
             // 
             this.howToUseToolStripMenuItem.Name = "howToUseToolStripMenuItem";
-            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.howToUseToolStripMenuItem.Text = "How To Use";
             this.howToUseToolStripMenuItem.Click += new System.EventHandler(this.howToUseToolStripMenuItem_Click);
             // 
             // developersToolStripMenuItem
             // 
             this.developersToolStripMenuItem.Name = "developersToolStripMenuItem";
-            this.developersToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.developersToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.developersToolStripMenuItem.Text = "Developers";
             this.developersToolStripMenuItem.Click += new System.EventHandler(this.developersToolStripMenuItem_Click);
             // 
             // contactUsToolStripMenuItem
             // 
             this.contactUsToolStripMenuItem.Name = "contactUsToolStripMenuItem";
-            this.contactUsToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.contactUsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.contactUsToolStripMenuItem.Text = "Contact Us";
             this.contactUsToolStripMenuItem.Click += new System.EventHandler(this.contactUsToolStripMenuItem_Click);
             // 
@@ -173,7 +155,7 @@
             this.lblFilePath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblFilePath.Location = new System.Drawing.Point(38, 70);
             this.lblFilePath.Name = "lblFilePath";
-            this.lblFilePath.Size = new System.Drawing.Size(496, 53);
+            this.lblFilePath.Size = new System.Drawing.Size(552, 224);
             this.lblFilePath.TabIndex = 1;
             // 
             // btnSelectFile
@@ -185,14 +167,6 @@
             this.btnSelectFile.Text = "Select File(s)";
             this.btnSelectFile.UseVisualStyleBackColor = true;
             this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
-            // 
-            // txtTransactionLog
-            // 
-            this.txtTransactionLog.Location = new System.Drawing.Point(38, 154);
-            this.txtTransactionLog.Multiline = true;
-            this.txtTransactionLog.Name = "txtTransactionLog";
-            this.txtTransactionLog.Size = new System.Drawing.Size(496, 125);
-            this.txtTransactionLog.TabIndex = 3;
             // 
             // dgLog
             // 
@@ -215,15 +189,6 @@
             this.btnExtract.Text = "Extract";
             this.btnExtract.UseVisualStyleBackColor = true;
             this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 134);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "District Log";
             // 
             // label2
             // 
@@ -265,10 +230,8 @@
             this.Controls.Add(this.progressExtraction);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.dgLog);
-            this.Controls.Add(this.txtTransactionLog);
             this.Controls.Add(this.btnSelectFile);
             this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.menuStrip1);
@@ -294,10 +257,7 @@
         private System.Windows.Forms.ToolStripMenuItem developersToolStripMenuItem;
         private System.Windows.Forms.Label lblFilePath;
         private System.Windows.Forms.Button btnSelectFile;
-        private System.Windows.Forms.TextBox txtTransactionLog;
         private System.Windows.Forms.DataGridView dgLog;
-        private System.Windows.Forms.ToolStripMenuItem selectFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem districtsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem schoolsToolStripMenuItem;
@@ -306,7 +266,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contactUsToolStripMenuItem;
         private System.Windows.Forms.Button btnExtract;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.OpenFileDialog ofCSVDialog;

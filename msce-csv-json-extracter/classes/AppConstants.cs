@@ -81,6 +81,12 @@ namespace msce_csv_json_extracter.classes
         public const String MESSAGE_FILE_DIALOG_NONE_SELECTED = "No files have been selected for extraction. Please select one or more CSV files for extraction";
         public const String CAPTION_FILE_DIALOG_NONE_SELECTED = "No File(s) Selected";
 
+        public static String MESSAGE_DEVELOPERS_APP = String.Format("MSCE CSV-JSON Extracter was developed by Lomaku Technologies T/A Lomaku IT, Malawi.\n\nAll rights reserved {0} {1}", "\u00a9", DateTime.Now.Year.ToString());
+        public const String CAPTION_DEVELOPERS_APP = "MSCE CSV-JSON Extracter";
+
+        public static String MESSAGE_CONTACT_US = String.Format("Lomaku IT can be directly contacted via WhatsApp {0}\nor via email {1}\nor alternatively on our Facebook page: /{2}", "+265 888 676 896", "msce@lomakuit.com","lomakuit");
+        public const String CAPTION_CONTACT_US = "Contact Lomaku Technologies";
+
         public const String NAME_DISTRICT_BLANTYRE = "BLANTYRE";
         public const String NAME_DISTRICT_BALAKA = "BALAKA";
         public const String NAME_DISTRICT_CHIKHWAWA = "CHIKHWAWA";
