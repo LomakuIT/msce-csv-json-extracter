@@ -45,6 +45,8 @@ namespace msce_csv_json_extracter.classes
     {
         public const String REGEX_MSCE_RESULTS_2 = @"(?<candidateCode>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z,\s]+)[\s][MSCE].*(?<candidateCode1>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender1>[M,F]+)[\s](?<firstname1>[A-Z]+)[\s](?<surname1>[A-Z,\s]+)[\s][MSCE].*";
         public const String REGEX_MSCE_RESULTS_1 = @"(?<candidateCode>[M][\s][0-9]{4}[\s][\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z]+)[\s]+MSCE.*";
+        public const String REGEX_MSCE_RESULTS_2_A = @"(?<candidateCode>[M][\s][0-9]{4}[\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z,\s]+)[\s][MSCE].*(?<candidateCode1>[M][\s][0-9]{4}[\/][\s][0-9]{3})[\s](?<gender1>[M,F]+)[\s](?<firstname1>[A-Z]+)[\s](?<surname1>[A-Z,\s]+)[\s][MSCE].*";
+        public const String REGEX_MSCE_RESULTS_1_A = @"(?<candidateCode>[M][\s][0-9]{4}[\/][\s][0-9]{3})[\s](?<gender>[M,F]+)[\s](?<firstname>[A-Z]+)[\s](?<surname>[A-Z,\s]+)[\s]+MSCE.*";
         public const String REGEX_MSCE_RESULTS_TRIMMED = "";
         public const String REGEX_MSCE_CENTRE_NAME= @".*CENTRE[\s]NO:[\s](?<centre>[A-Z,a-z,\,,(,),\\,\/,\s,\',-]+).*";
         public const String REGEX_MSCE_CENTRE_NO = @"^(?<centreNumber>[0-9]{4})$";
@@ -90,6 +92,7 @@ namespace msce_csv_json_extracter.classes
         public const String NAME_DISTRICT_BLANTYRE = "BLANTYRE";
         public const String NAME_DISTRICT_BALAKA = "BALAKA";
         public const String NAME_DISTRICT_CHIKHWAWA = "CHIKHWAWA";
+        public const String NAME_DISTRICT_CHIKWAWA = "CHIKWAWA";
         public const String NAME_DISTRICT_CHIRADZULU = "CHIRADZULU";
         public const String NAME_DISTRICT_DEDZA = "DEDZA";
         public const String NAME_DISTRICT_DOWA = "DOWA";

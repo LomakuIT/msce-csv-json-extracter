@@ -51,7 +51,7 @@ namespace msce_csv_json_extracter
 {
     /* Created by Chief Wiz on 05-06-2019
      * CSV to JSON extraction tool for MSCE results data 
-     * version 0.9.0.6
+     * version 0.9.0.7
      */
     public partial class frmMain : Form
     {
@@ -78,11 +78,14 @@ namespace msce_csv_json_extracter
             centresArray = new JArray();
             districtsArray = new JArray();
             schoolsArray = new JArray();
+            progressExtraction.Value = 0;
         }
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
             if (ofCSVDialog.ShowDialog() == DialogResult.OK)
             {
+                initResources();//clear out previous objects
+
                 /* extract result for all CSV files */
                 String allPaths = "";
                 foreach (String path in ofCSVDialog.FileNames)
@@ -108,6 +111,7 @@ namespace msce_csv_json_extracter
         {
             try
             {
+                
                 MatchCollection matches;
                 StreamReader sr = new StreamReader(filepath);
                 Centre centre = new Centre();
@@ -118,14 +122,14 @@ namespace msce_csv_json_extracter
 
                     /* match msce result */
                     #region result
-                    Regex r2Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_2, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    Regex r1Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_1, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex r2Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_2_A, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Regex r1Regex = new Regex(AppConstants.REGEX_MSCE_RESULTS_1_A, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                     matches = r2Regex.Matches(oneLine);
 
                     if (matches.Count == 1)//single match with two candidate results
                     {
-
+                        Console.WriteLine("matched dual result -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             #region firstCandidate
@@ -159,7 +163,7 @@ namespace msce_csv_json_extracter
 
                         if (matches.Count == 1)//single match with single candidate results
                         {
-
+                            Console.WriteLine("matched single result -> " + oneLine);
                             foreach (Match m in matches)
                             {
                                 #region oneCandidate
@@ -187,6 +191,7 @@ namespace msce_csv_json_extracter
                     matches = cNaRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {
+                      //  Console.WriteLine("matched centre name -> " + oneLine);
                         centre = new Centre();//new centre
 
                         foreach (Match m in matches)
@@ -204,6 +209,8 @@ namespace msce_csv_json_extracter
                     matches = cNoRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {
+                       // Console.WriteLine("matched centre number -> " + oneLine);
+
                         foreach (Match m in matches)
                         {
                             String c = m.Groups[AppConstants.TAG_CENTRE_NUMBER_CODE_GROUP].Value;
@@ -221,7 +228,7 @@ namespace msce_csv_json_extracter
                     matches = dRegex.Matches(oneLine);
                     if (matches.Count == 1)
                     {//single match been found
-
+                      //  Console.WriteLine("matched district name -> " + oneLine);
                         foreach (Match m in matches)
                         {
                             District mDistrict = new District();
@@ -229,7 +236,7 @@ namespace msce_csv_json_extracter
 
                             if (fDistrict.Contains(AppConstants.NAME_DISTRICT_BLANTYRE) ||
                                  fDistrict.Contains(AppConstants.NAME_DISTRICT_NSANJE) ||
-                                 fDistrict.Contains(AppConstants.NAME_DISTRICT_CHIKHWAWA) ||
+                                 fDistrict.Contains(AppConstants.NAME_DISTRICT_CHIKWAWA) ||
                                  fDistrict.Contains(AppConstants.NAME_DISTRICT_ZOMBA) ||
                                  fDistrict.Contains(AppConstants.NAME_DISTRICT_PHALOMBE) ||
                                  fDistrict.Contains(AppConstants.NAME_DISTRICT_MACHINGA) ||
@@ -267,15 +274,12 @@ namespace msce_csv_json_extracter
                             {
                                 mDistrict = new District(fDistrict, "NORTH", null);//if northern district is detected
                             }
-
+                           // Console.WriteLine("district object -> " + mDistrict.toJSONObject());
                             centre.setDistrict(mDistrict.getDistrictName());//set centre district
                             bool hasAppended = appendToDistricts(mDistrict);
                             bool hasAppended1 = appendToCentres(centre);
                             bool hasAppended2 = appendToSchools(centre);
 
-                            Console.WriteLine("has appended district " + hasAppended);
-                            Console.WriteLine("has appended centre " + hasAppended1);
-                            Console.WriteLine("has appended school " + hasAppended2);
                         }
                     }
 
@@ -359,7 +363,8 @@ namespace msce_csv_json_extracter
                 //convert to string as cannot compare with JToken
                 String cName = (String)cObject.GetValue(AppConstants.TAG_CENTRE_NAME);
                 String cCode = (String)cObject.GetValue(AppConstants.TAG_CENTRE_CODE);
-
+                Console.WriteLine("appendToCentres()Centre code -> " + cCode);
+                Console.WriteLine("appendToCentres()Centre -> " + cName);
                 //if centre name and centre code match then do not add centre as it already exists
                 if (cName.Trim().Equals(centre.getCentreName().Trim())
                     && cCode.Trim().Equals(centre.getCentreCode().Trim())
@@ -435,6 +440,7 @@ namespace msce_csv_json_extracter
                 FileInfo file;//file object used to write to file
 
                 /* write to candidates JSON */
+                Console.WriteLine("writeToJSONFiles() candidates size -> "+candidatesArray.Count());
                 #region writeCandidates
                 file = new FileInfo(candidatePath);
                 file.Directory.Create();
@@ -443,6 +449,7 @@ namespace msce_csv_json_extracter
 
                 /* write to schools JSON */
                 #region writeSchools
+                Console.WriteLine("writeToJSONFiles() school size -> " + schoolsArray.Count());
                 file = new FileInfo(schoolsPath);
                 file.Directory.Create();
                 File.WriteAllText(file.FullName, schoolsArray.ToString());
@@ -450,6 +457,7 @@ namespace msce_csv_json_extracter
 
                 /* write to centres JSON */
                 #region writeCentres
+                Console.WriteLine("writeToJSONFiles() centers size -> " + centresArray.Count());
                 file = new FileInfo(centresPath);
                 file.Directory.Create();
                 File.WriteAllText(file.FullName, centresArray.ToString());
@@ -457,11 +465,16 @@ namespace msce_csv_json_extracter
 
                 /* write to districts JSON */
                 #region writeDistricts
+                Console.WriteLine("writeToJSONFiles() districts size -> " + districtsArray.Count());
                 file = new FileInfo(districtsPath);
                 file.Directory.Create();
                 File.WriteAllText(file.FullName, districtsArray.ToString());
                 #endregion writeDistricts
 
+                Console.WriteLine("writeToJSONFiles() districts path -> " + districtsPath);
+                Console.WriteLine("writeToJSONFiles() centres path -> " + centresPath);
+                Console.WriteLine("writeToJSONFiles() candidates path -> " + candidatePath);
+                Console.WriteLine("writeToJSONFiles() schools path -> " + schoolsPath);
             }
             catch (FileNotFoundException fnfEx)
             {
